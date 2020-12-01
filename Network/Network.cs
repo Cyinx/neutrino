@@ -9,8 +9,8 @@ namespace neutrino {
     }
 
     public interface SessionHandler {
-        void ServeHandler(Agent agent, EventID msgID, byte[] b);
-        void ServeRpc(Agent agent, EventID msgID, byte[] b);
+        void ServeHandler(Agent agent, EventID msgID, Span<byte> memory);
+        void ServeRpc(Agent agent, EventID msgID, Span<byte> memory);
     }
 
     public interface NetworkConn : Agent {

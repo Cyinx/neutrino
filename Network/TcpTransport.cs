@@ -36,7 +36,7 @@ namespace neutrino {
             return networkMgr;
         }
         void NetworkTransport.PingPong() {
-            
+
         }
         void NetworkTransport.ReadMsgPacket() {
             recvBuffer.Reserve(MSG_DEFAULT_LENGTH);
@@ -47,7 +47,7 @@ namespace neutrino {
             }
         }
         void NetworkTransport.SendMsgPacket(NetworkStream writeBuffer) {
-            if(inSending == false) {
+            if (inSending == false) {
                 inSending = true;
                 writeEventArg.SetBuffer(writeBuffer.GetBuffer(), 0, writeBuffer.Size);
                 writeEventArg.UserToken = writeBuffer;
@@ -63,7 +63,7 @@ namespace neutrino {
         void NetworkTransport.OnSendComplete() {
             inSending = false;
             NetworkStream writeBuffer = null;
-            if(writeQueue.TryDequeue(out writeBuffer) == false) {
+            if (writeQueue.TryDequeue(out writeBuffer) == false) {
                 return;
             }
             NetworkTransport transport = this;
@@ -96,13 +96,13 @@ namespace neutrino {
             do {
                 switch (recvStep) {
                     case RecvProcessStep.NONE:
-                        if(recvBuffer.Space < MSG_HEADER_LENGTH) {
+                        if (recvBuffer.Space < MSG_HEADER_LENGTH) {
                             recvBuffer.Reserve(MSG_HEADER_LENGTH);
                         }
                         recvStep = RecvProcessStep.HEAD;
                         goto case RecvProcessStep.HEAD;
                     case RecvProcessStep.HEAD:
-                        if(recvBuffer.Size < MSG_HEADER_LENGTH ) {
+                        if (recvBuffer.Size < MSG_HEADER_LENGTH) {
                             break;
                         }
                         recvMsgType = recvBuffer.ReadByte();
@@ -136,7 +136,7 @@ namespace neutrino {
 
         private void OnTakeSingleMsg() {
             EventID msgID = recvBuffer.ReadUInt32();
-            var b = recvBuffer.SpanBytes((int)recvBodyLenght - sizeof(UInt32));
+            var b = recvBuffer.SpanBytes((int)recvBodyLenght);
             switch (recvMsgType) {
                 case 0x50: // 'P'
                     networkMgr.ServeHandler(this, msgID, b);

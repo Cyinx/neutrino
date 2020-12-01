@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <Folder Include="console\" />
-    <Folder Include="Serialization\" />
   </ItemGroup>
 
   <ItemGroup>
